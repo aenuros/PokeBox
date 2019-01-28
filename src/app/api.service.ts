@@ -7,6 +7,9 @@ import { environment } from '../environments/environment';
 
 const TYPECHART_API = environment.apiUrl + '/typeWeaknessList/';
 
+const POKEMONLIST_API = environment.apiUrl + '/pokemonList/';
+
+
 const POKEAPI_URL = 'https://pokeapi.co/api/v2/pokemon/';
 
 @Injectable()
@@ -32,6 +35,11 @@ export class ApiService {
 
   getPokemon(pokemon: string): Observable<any> {
     return this.http.get(POKEAPI_URL + pokemon)
+    .pipe(map((response: Response) => response.json()));
+  }
+
+  getAllPokemon() {
+    return this.http.get(POKEMONLIST_API)
     .pipe(map((response: Response) => response.json()));
   }
 

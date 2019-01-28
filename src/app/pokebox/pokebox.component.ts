@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
   <div id="box">
   SELECT
   <select #pokeselect>
+    <option [value]="pokemon" *ngFor="let pokemon of pokemonList">{{pokemon}}
     <option value="gastly">Gastly</option>
     <option value="magcargo">Magcargo</option>
     <option value="squirtle">squirtle</option>
@@ -22,18 +23,18 @@ import { Observable } from 'rxjs';
 
 
   <div *ngIf="myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 2">
-  Type 1: {{firstType}} <br/>
-  Type 2: {{secondType}}
+  Type 1: {{firstType | titlecase}} <br/>
+  Type 2: {{secondType | titlecase }}
   </div>
 
   <div *ngIf="myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 1">
-  Type 1: {{firstType}}
+  Type 1: {{firstType | titlecase}}
   </div>
 
 
 
   <div *ngFor="let miniarray of typeArray">
-   {{miniarray}} <br/>
+   {{miniarray | titlecase}} <br/>
   </div>
 
 </div>
@@ -48,8 +49,8 @@ export class PokeboxComponent implements OnInit {
   myPokemon: Observable<any>;
   firstType: string;
   secondType: string;
-  typeResult: string;
   typeArray: any[];
+  pokemonList: Observable<any>;
 
   constructor(private apiService: ApiService) {}
 
@@ -63,7 +64,7 @@ export class PokeboxComponent implements OnInit {
       // console.log(this.myPokemon['types'][0]['type']['name']);
       this.secondType = this.myPokemon['types'][0]['type']['name'];
 
-
+      // if pokemon has two types, assign both. otherwise give dummy type 'na' to secondType
       if (this.myPokemon['types'].length === 2) {
         this.firstType = this.myPokemon['types'][1]['type']['name'];
         this.secondType = this.myPokemon['types'][0]['type']['name'];
@@ -77,19 +78,17 @@ export class PokeboxComponent implements OnInit {
   }
 
   printType(firstType, secondType) {
-    this.typeResult = '';
     this.typeArray = [];
     this.apiService
     .getTypes(firstType)
     .subscribe((data: Observable<any>) => {
       this.typecharts = data;
-      // console.log(this.typecharts);
+      // if there is only one type, calculate weaknesses and push to typearray
       if (secondType === 'na') {
         for (const key in this.typecharts) {
           // pokemon with only one type
           if ('na' && key !== 'id' && this.typecharts[key] >= 2) {
             console.log(key + ': ' + this.typecharts[key]);
-            // this.typeResult += key + ': ' + this.typecharts[key] + 'x';
             this.typeArray.push(key + ': ' + this.typecharts[key] + 'x');
           }
         }
@@ -98,20 +97,15 @@ export class PokeboxComponent implements OnInit {
         this.apiService.getTypes(secondType)
         .subscribe((data2: Observable<any>) => {
         this.typecharts2 = data2;
-        // console.log('ITS HERE');
-        // console.log(this.typecharts2);
-        // console.log(this.typecharts);
 
         for (const weakness in this.typecharts) {
           if (firstType === secondType) {
             if (this.typecharts[weakness] >= 2) {
             console.log(weakness + ' : ' + (this.typecharts[weakness]) + 'x');
-            // this.typeResult += weakness + ' : ' + (this.typecharts[weakness]) + 'x';
             this.typeArray.push(weakness + ' : ' + (this.typecharts[weakness]) + 'x');
             }
           } else if ((this.typecharts[weakness] * this.typecharts2[weakness]) >= 2) {
             console.log(weakness + ': ' + (this.typecharts[weakness] * this.typecharts2[weakness]) + 'x');
-            // this.typeResult += weakness + ': ' + (this.typecharts[weakness] * this.typecharts2[weakness]) + 'x';
             this.typeArray.push(weakness + ': ' + (this.typecharts[weakness] * this.typecharts2[weakness]) + 'x');
           }
         }
@@ -123,13 +117,9 @@ export class PokeboxComponent implements OnInit {
 
     ngOnInit() {
       console.log('NG ON INIT baby');
-      /*
-
-
-      this.apiService
-      .getBulbasaur()
-      .subscribe((data: Observable<any>) => this.myBulbasaur = data);
-      */
+      this.apiService.getAllPokemon().subscribe((data: Observable<any>) => {
+        this.pokemonList = data;
+      });
     }
 
 
