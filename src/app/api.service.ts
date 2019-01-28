@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
-const TYPECHART_API = environment.apiUrl + '/typeWeaknessList';
+const TYPECHART_API = environment.apiUrl + '/typeWeaknessList/';
 
 const POKEAPI_URL = 'https://pokeapi.co/api/v2/pokemon/';
 
@@ -19,10 +19,11 @@ export class ApiService {
     .pipe(map((response: Response) => response.json()));
   }
 
-  getTypes(): Observable<Typechart[]> {
-    return this.http.get(TYPECHART_API)
+  getTypes(type: string): Observable<any> {
+    return this.http.get(TYPECHART_API + type)
     .pipe(map((response: Response) => response.json()));
   }
+
 
   getBulbasaur(): Observable<any> {
     return this.http.get(POKEAPI_URL + 'bulbasaur')

@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   <div id="box">
   SELECT
   <select #pokeselect>
-    <option value="bulbasaur">Bulbasaur</option>
+    <option value="gastly">Gastly</option>
     <option value="magcargo">Magcargo</option>
     <option value="squirtle">squirtle</option>
   </select>
@@ -19,24 +19,28 @@ import { Observable } from 'rxjs';
   <button
     (click)="onCheck(pokeselect.value, results)">Check
   </button>
-  <div *ngIf="myPokemon" id="results" #results>
 
-  Type 1: {{myPokemon["types"][0]["type"]["name"]}}
-  </div>
 
   <div *ngIf="myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 2">
-  Type 2: {{myPokemon["types"][1]["type"]["name"]}}
-
+  Type 1: {{firstType}}
+  Type 2: {{secondType}}
   </div>
+
+  <div *ngIf="myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 1">
+  Type 1: {{firstType}}
+  </div>
+
 </div>
 `
 })
 export class PokeboxComponent implements OnInit {
-  typecharts: Typechart[];
+  typecharts: Observable<any>;
   title = 'pktype';
   data: Typechart[];
   myBulbasaur: Observable<any>;
   myPokemon: Observable<any>;
+  firstType: string;
+  secondType: string;
 
   constructor(private apiService: ApiService) {}
 
@@ -44,17 +48,46 @@ export class PokeboxComponent implements OnInit {
     console.log(pokemon);
     this.apiService
     .getPokemon(pokemon)
-    .subscribe((data: Observable<any>) => this.myPokemon = data);
-    console.log(this.myPokemon);
-    console.log(this.myPokemon['types'][0]['type']['name']);
+    .subscribe((data: Observable<any>) => {
+      this.myPokemon = data;
+      console.log(this.myPokemon);
+      // console.log(this.myPokemon['types'][0]['type']['name']);
+      this.secondType = this.myPokemon['types'][0]['type']['name'];
+
+
+      if (this.myPokemon['types'].length === 2) {
+        this.firstType = this.myPokemon['types'][1]['type']['name'];
+        this.secondType = this.myPokemon['types'][0]['type']['name'];
+      } else {
+        this.firstType = this.myPokemon['types'][0]['type']['name'];
+        this.secondType = 'na';
+    }
+
+      this.printType(this.firstType);
+
+
+    });
+  }
+
+  printType(defensiveType) {
+    this.apiService
+    .getTypes(defensiveType)
+    .subscribe((data: Observable<any>) => {
+      this.typecharts = data;
+      for (const key in this.typecharts) {
+        // pokemon with only one type
+        if (this.secondType === 'na' && key !== 'id' && this.typecharts[key] >= 2) {
+          console.log(key + ': ' + this.typecharts[key]);
+        }
+      }
+    });
+    return this.typecharts;
   }
 
     ngOnInit() {
       console.log('NG ON INIT baby');
       /*
-      this.apiService
-      .getTypes()
-      .subscribe((data: Typechart[]) => this.typecharts = data);
+
 
       this.apiService
       .getBulbasaur()

@@ -17,13 +17,5 @@ export class AppComponent implements OnInit {
   constructor(private apiService: ApiService) {}
     ngOnInit() {
       console.log('NG ON INIT baby');
-      this.apiService
-      .getTypes()
-      .subscribe((data: Typechart[]) => this.typecharts = data);
-
-      this.apiService
-      .getBulbasaur()
-      .subscribe((data: Observable<any>) => this.myBulbasaur = data);
     }
-
 }
