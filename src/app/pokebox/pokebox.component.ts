@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   <div id="box">
   SELECT
   <select #pokeselect>
-    <option [value]="pokemon" *ngFor="let pokemon of pokemonList">{{pokemon}}
+    <option [value]="pokemon" *ngFor="let pokemon of pokemonList">{{pokemon | titlecase}}
     <option value="gastly">Gastly</option>
     <option value="magcargo">Magcargo</option>
     <option value="squirtle">squirtle</option>
@@ -32,9 +32,10 @@ import { Observable } from 'rxjs';
   </div>
 
 
-
-  <div *ngFor="let miniarray of typeArray">
-   {{miniarray | titlecase}} <br/>
+  <div class="typesbox">
+    <div *ngFor="let miniarray of typeArray">
+    {{miniarray | titlecase}} <br/>
+    </div>
   </div>
 
 </div>
