@@ -7,12 +7,16 @@ import { TypeboxComponent } from './typebox/typebox.component';
 import { PokeboxComponent } from './pokebox/pokebox.component';
 import { ApiService } from './api.service';
 import { HttpModule } from '@angular/http';
+import { TeamWeaknessAnalyzerComponent } from './team-weakness-analyzer/team-weakness-analyzer.component';
+import { MoveSelectComponent } from './move-select/move-select.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PokeboxComponent,
-    TypeboxComponent
+    TypeboxComponent,
+    TeamWeaknessAnalyzerComponent,
+    MoveSelectComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ const POKEMONLIST_API = environment.apiUrl + '/pokemonList/';
 
 
 const POKEAPI_URL = 'https://pokeapi.co/api/v2/pokemon/';
+const POKEAPI_GENERIC_URL = 'https://pokeapi.co/api/v2/';
 
 @Injectable()
 export class ApiService {
@@ -40,6 +41,11 @@ export class ApiService {
 
   getAllPokemon() {
     return this.http.get(POKEMONLIST_API)
+    .pipe(map((response: Response) => response.json()));
+  }
+
+  getDamageClassOfMove(move: string): Observable<any> {
+    return this.http.get(`${POKEAPI_GENERIC_URL}move/${move}`)
     .pipe(map((response: Response) => response.json()));
   }
 

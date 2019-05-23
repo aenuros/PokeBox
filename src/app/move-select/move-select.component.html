@@ -1,0 +1,14 @@
+Move:
+<select #moveselect (change)="onMoveCheck(moveselect.value)">
+    <option value="move_na">n/a</option>
+    <option value="water-gun">Water Gun</option>
+    <option value="pound">Pound</option>
+    <option value="sleep-powder">Sleep Powder</option>
+</select>
+
+<div>
+  <ul *ngIf="moveDamageClass?.length > 1 && moveType?.length > 1">
+    <li>Type: {{moveType}}</li>
+    <li>Damage Class: {{moveDamageClass}}</li>
+  </ul>
+</div>

@@ -1,12 +1,40 @@
 <div id="box">
-  SELECT
-  <select>
-    <option value="none">n/a</option>
-    <option value="bulbasaur">Bulbasaur</option>
-    <option value="magcargo">Magcargo</option>
-    <option value="squirtle">Squirtle</option>
-  </select>
-  <br/>
-  <button
-    (click)="onCheck()">Check</button>
-</div>
+    {{boxId}}
+    SELECT
+    <select #pokeselect (change)="onCheck(pokeselect.value)">
+      <option value="na">n/a</option>
+      <option [value]="pokemon" *ngFor="let pokemon of pokemonList">{{pokemon | titlecase}}
+    </select>
+    <br/>
+
+
+
+
+    <div *ngIf="firstType !== undefined && myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 2">
+    <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonName}}.png">
+    <br/>
+    Type 1: {{firstType | titlecase}} <br/>
+    Type 2: {{secondType | titlecase }}
+    </div>
+
+    <div *ngIf="firstType !== undefined && myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 1">
+    <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonName}}.png">
+    <br/>
+    Type 1: {{firstType | titlecase}}
+    </div>
+
+
+    <div class="typesbox">
+      <div *ngFor="let miniarray of typeArray">
+      {{miniarray | titlecase}} <br/>
+      </div>
+    </div>
+
+    <div *ngIf="firstType !== undefined && myPokemon">
+      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
+    </div>
+
+  </div>
