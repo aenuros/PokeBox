@@ -31,10 +31,10 @@
     </div>
 
     <div *ngIf="firstType !== undefined && myPokemon">
-      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
-      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
-      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
-      <app-move-select movePokemon="{{pokeselect.value}}" currentPokemon="{{myPokemon}}"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
+      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
     </div>
 
   </div>

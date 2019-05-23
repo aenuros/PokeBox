@@ -1,9 +1,7 @@
-Move:
 <select #moveselect (change)="onMoveCheck(moveselect.value)">
     <option value="move_na">n/a</option>
-    <option value="water-gun">Water Gun</option>
-    <option value="pound">Pound</option>
-    <option value="sleep-powder">Sleep Powder</option>
+    <option [value]="item" *ngFor="let item of currentMoves">{{item}}</option>
+
 </select>
 
 <div>

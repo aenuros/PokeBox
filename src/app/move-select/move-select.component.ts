@@ -11,16 +11,14 @@ import { Observable } from 'rxjs';
 export class MoveSelectComponent implements OnInit {
 
   @Input() public movePokemon: string;
-  @Input() public currentPokemon;
+  @Input() public currentMoves;
 
   moveDamageClass: string;
   moveType: string;
-  moveList;
 
   constructor(private apiService: ApiService) { }
 
   onMoveCheck(move) {
-    console.log(move);
     if (move === 'move_na' ) {
       console.log('no move');
       this.moveDamageClass = '';
@@ -29,7 +27,6 @@ export class MoveSelectComponent implements OnInit {
       this.apiService.getDamageClassOfMove(move).subscribe((data: Observable<any>) => {
           this.moveDamageClass = data['damage_class']['name'];
           this.moveType = data['type']['name'];
-          console.log(this.currentPokemon['moves']);
         }
       );
     }

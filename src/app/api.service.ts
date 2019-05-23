@@ -49,4 +49,9 @@ export class ApiService {
     .pipe(map((response: Response) => response.json()));
   }
 
+  getPokemonsMoves(pokemon: string): Observable<any> {
+    return this.http.get(POKEAPI_URL + pokemon)
+    .pipe(map((response: Response) => response.json()));
+  }
+
 }

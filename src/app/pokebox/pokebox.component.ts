@@ -21,6 +21,7 @@ export class PokeboxComponent implements OnInit {
   secondType: string;
   typeArray: any[];
   pokemonList: Observable<any>;
+  moveList: Array<string>;
 
   constructor(private apiService: ApiService, private typeCalcService: TypeCalcService) {}
 
@@ -59,7 +60,6 @@ export class PokeboxComponent implements OnInit {
       .getPokemon(pokemon)
       .subscribe((data: Observable<any>) => {
         this.myPokemon = data;
-        // console.log(this.myPokemon['moves']);
         this.secondType = this.myPokemon['types'][0]['type']['name'];
 
         // if pokemon has two types, assign both. otherwise give dummy type 'na' to secondType
@@ -74,7 +74,6 @@ export class PokeboxComponent implements OnInit {
         this.printType(this.firstType, this.secondType);
       });
     }
-
   }
 
   printType(firstType, secondType) {
@@ -86,12 +85,15 @@ export class PokeboxComponent implements OnInit {
       .getTypes(firstType)
       .subscribe((data: Observable<any>) => {
         this.typecharts = data;
+        // clear, and then populate moveList
+        this.moveList = this.getTheMoves(this.myPokemon['moves']);
+        console.log(this.moveList);
         // if there is only one type, calculate weaknesses and push to typearray
         if (secondType === 'na') {
           for (const key in this.typecharts) {
             // pokemon with only one type
             if ('na' && key !== 'id' && this.typecharts[key] >= 2) {
-              console.log(key + ': ' + this.typecharts[key]);
+              // console.log(key + ': ' + this.typecharts[key]);
               this.typeArray.push(key + ': ' + this.typecharts[key] + 'x');
               switch (this.boxId) {
                 case '1':
@@ -124,7 +126,7 @@ export class PokeboxComponent implements OnInit {
           for (const weakness in this.typecharts) {
             if (firstType === secondType) {
               if (this.typecharts[weakness] >= 2) {
-              console.log(weakness + ' : ' + (this.typecharts[weakness]) + 'x');
+              // console.log(weakness + ' : ' + (this.typecharts[weakness]) + 'x');
               this.typeArray.push(weakness + ' : ' + (this.typecharts[weakness]) + 'x');
               switch (this.boxId) {
                 case '1':
@@ -148,7 +150,7 @@ export class PokeboxComponent implements OnInit {
                 }
               }
             } else if ((this.typecharts[weakness] * this.typecharts2[weakness]) >= 2) {
-              console.log(weakness + ': ' + (this.typecharts[weakness] * this.typecharts2[weakness]) + 'x');
+              // console.log(weakness + ': ' + (this.typecharts[weakness] * this.typecharts2[weakness]) + 'x');
               this.typeArray.push(weakness + ': ' + (this.typecharts[weakness] * this.typecharts2[weakness]) + 'x');
               switch (this.boxId) {
                 case '1':
@@ -179,6 +181,15 @@ export class PokeboxComponent implements OnInit {
     }
     this.typeCalcService.sendAlert('done');
   }
+
+getTheMoves(array) {
+  const tempMoveList = [];
+  for (let i = 0; i < array.length; i++) {
+    tempMoveList.push(array[i]['move']['name']);
+  }
+  return tempMoveList;
+}
+
 
     ngOnInit() {
       this.apiService.getAllPokemon().subscribe((data: Observable<any>) => {
