@@ -9,6 +9,7 @@ import { ApiService } from './api.service';
 import { HttpModule } from '@angular/http';
 import { TeamWeaknessAnalyzerComponent } from './team-weakness-analyzer/team-weakness-analyzer.component';
 import { MoveSelectComponent } from './move-select/move-select.component';
+import { MoveSetComponent } from './move-set/move-set.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MoveSelectComponent } from './move-select/move-select.component';
     PokeboxComponent,
     TypeboxComponent,
     TeamWeaknessAnalyzerComponent,
-    MoveSelectComponent
+    MoveSelectComponent,
+    MoveSetComponent
   ],
   imports: [
     BrowserModule,

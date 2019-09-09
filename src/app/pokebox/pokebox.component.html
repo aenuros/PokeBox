@@ -9,32 +9,30 @@
 
 
 
-
     <div *ngIf="firstType !== undefined && myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 2">
     <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonName}}.png">
     <br/>
-    Type 1: {{firstType | titlecase}} <br/>
-    Type 2: {{secondType | titlecase }}
+    {{firstType | titlecase}}/{{secondType | titlecase }}
     </div>
+
+
 
     <div *ngIf="firstType !== undefined && myPokemon && myPokemon['types'].length !== undefined && myPokemon['types'].length === 1">
     <img src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/{{pokemonName}}.png">
     <br/>
-    Type 1: {{firstType | titlecase}}
+    {{firstType | titlecase}}
     </div>
 
 
-    <div class="typesbox">
+    <div *ngIf="firstType !== undefined && myPokemon" class="typesbox">
+      Weaknesses:
       <div *ngFor="let miniarray of typeArray">
       {{miniarray | titlecase}} <br/>
       </div>
     </div>
 
     <div *ngIf="firstType !== undefined && myPokemon">
-      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
-      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
-      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
-      <app-move-select movePokemon="{{pokeselect.value}}" [currentMoves]="moveList"></app-move-select>
+        <app-move-set setPokemon="{{pokeselect.value}}" [setMoves]="moveList"></app-move-set>
     </div>
 
   </div>

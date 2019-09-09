@@ -2,7 +2,6 @@ import { Component, OnInit, OnChanges, Input, SimpleChange, SimpleChanges, Outpu
 import { Typechart } from './models/pokebox.interface';
 import { ApiService } from './../api.service';
 import { TypeCalcService } from './../type-calc.service';
-
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 @Component({
